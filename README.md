@@ -1,3 +1,25 @@
+# GoPro RPY
+
+A proof-of-concept to use GoPro telemetry to automatically adjust roll, pitch, and yaw in processed equirectangular videos/
+
+Read this post for a bit more information about our thought processes in building this: https://www.trekview.org/blog/2022/calculating-heading-of-gopro-video-using-gpmf-part-1/
+
+## Prerequisites
+
+1. First extract the telemetry file (as json) from your GoPro video using [gopro-telemetry](https://github.com/JuanIrache/gopro-telemetry/). [Detailed instructions about how to do this can be found in this post](https://www.trekview.org/blog/2022/gopro-telemetry-exporter-getting-started/).
+2. Install required packages `pip3 install -r requirements.txt`
+
+## Usage
+
+TODO
+
+### Example usage
+
+
+## How it works
+
+TODO
+
 Documentation-
 Roll, Pitch, Yaw extraction and Heading calculation
 v1.0
@@ -63,3 +85,10 @@ Update
 				r = roll angle
 				p = pitch angle
 
+## Support
+
+Community support available on Discord: https://discord.gg/ZVk7h9hCfw
+
+## License
+
+The code of this site is licensed under a [MIT License](/LICENSE).
