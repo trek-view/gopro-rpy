@@ -11,10 +11,16 @@ Read this post for a bit more information about our thought processes in buildin
 
 ## Usage
 
-TODO
+add arguments in command line
+
 
 ### Example usage
 
+To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
+./main3.py testfile.json --plot true
+
+To just update the .json file with new data
+./main3.py testfile.json
 
 ## How it works
 
