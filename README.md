@@ -16,11 +16,11 @@ add arguments in command line
 
 ### Example usage
 
--To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
+- To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
 	./main3.py testfile.json --plot true
 
--To just update the .json file with new data
+- To just update the .json file with new data
 
 	./main3.py testfile.json
 
