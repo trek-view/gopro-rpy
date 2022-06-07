@@ -13,16 +13,19 @@ Read this post for a bit more information about our thought processes in buildin
 
 add arguments in command line
 
+	./main.py [.json file name/ file path] [--plot True]
+--plot argument is optional, only put some value when plots are required
+
 
 ### Example usage
 
 - To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
-	./main3.py testfile.json --plot true
+	./main.py testfile.json --plot true
 
 - To just update the .json file with new data
 
-	./main3.py testfile.json
+	./main.py testfile.json
 
 ## How it works
 
