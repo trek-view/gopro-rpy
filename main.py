@@ -63,16 +63,24 @@ mag_data = data['1']['streams']['MAGN']["samples"]
 # extracting timestamps and data for the relevant variables
 timestamp_cam = []
 cam_val = []
+cam_cts = []
+cam_date = []
 for i in range(len(cam_data)):
     timestamp_cam.append(get_sec(cam_data[i]['date'].split('T')[1][:-1]))
     cam_val.append(cam_data[i]['value']) # [W,X,Y,Z]
+    cam_cts.append(cam_data[i]['cts'])
+    cam_date.append(cam_data[i]['date'])
 cam_ori_val = np.array(cam_val)
 
 mag_val = []
 timestamp_mag = []
+mag_cts = []
+mag_date = []
 for i in range(len(mag_data)):
     timestamp_mag.append(get_sec(mag_data[i]['date'].split('T')[1][:-1]))
     mag_val.append(mag_data[i]['value']) # in uT
+    mag_cts.append(mag_data[i]['cts'])
+    mag_date.append(mag_data[i]['date'])
 mag_val = np.array(mag_val)
 
 # processing camera orientation
@@ -161,27 +169,35 @@ else:
 
 # update the json file
 
+rpyr_list = []
+rpyd_list = []
+for i in range(len(rpyr_arr)):
+    rpyd_list.append({'value':rpyd_arr[i,:].tolist(),'cts':cam_cts[i],'date':cam_date[i]})
+    rpyr_list.append({'value':rpyr_arr[i,:].tolist(),'cts':cam_cts[i],'date':cam_date[i]})
+    
+hear_list = []
+head_list = []
+for i in range(len(calc_heading_d)):
+    hear_list.append({'value':calc_heading_d[i],'cts':mag_cts[i],'date':mag_date[i]})
+    head_list.append({'value':calc_heading_r[i],'cts':mag_cts[i],'date':mag_date[i]})
+
 #rpy rad
-rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}
-rpyrval_dict = {'samples':rpyr_dict,'name':'roll, pitch, yaw (x,y,z)','units':'radians'}
+#rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}
+rpyrval_dict = {'samples':rpyr_list,'name':'roll, pitch, yaw (x,y,z)','units':'radians'}
 
 #rpy deg
-rpyd_dict = {'values':rpyd_arr.tolist(),'time':timestamp_cam}
-rpydval_dict = {'samples':rpyd_dict,'name':'roll, pitch, yaw (x,y,z)','units':'degrees'}
+#rpyd_dict = {'values':rpyd_arr.tolist(),'time':timestamp_cam}
+rpydval_dict = {'samples':rpyd_list,'name':'roll, pitch, yaw (x,y,z)','units':'degrees'}
 #rpy_time = {'time':timestamp_cam}
 
 #head rad
-headr_dict = {'values':calc_heading_r,'time':timestamp_mag}
-headrval_dict = {'samples':headr_dict,'name':'magnetic heading','units':'radians'}
+#headr_dict = {'values':calc_heading_r,'time':timestamp_mag}
+headrval_dict = {'samples':hear_list,'name':'magnetic heading','units':'radians'}
 
 #head deg
-headd_dict = {'values':calc_heading_d,'time':timestamp_mag}
-headdval_dict = {'samples':headd_dict,'name':'magnetic heading','units':'degrees'}
+#headd_dict = {'values':calc_heading_d,'time':timestamp_mag}
+headdval_dict = {'samples':head_list,'name':'magnetic heading','units':'degrees'}
 #head_time = {'time':timestamp_mag}
-
-
-
-
 
 
 json.dumps([rpyrval_dict,rpydval_dict,headrval_dict,headdval_dict])
@@ -199,4 +215,3 @@ f2 = open(file_name[:-5]+'-calculated.json','a')
 f2.write(updated_file)
 f2.close()
 f.close()
-
