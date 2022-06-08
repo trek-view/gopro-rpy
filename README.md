@@ -13,25 +13,31 @@ Read this post for a bit more information about our thought processes in buildin
 
 add arguments in command line
 
-	./main.py [.json file name/ file path] [--plot True]
---plot argument is optional, only put some value when plots are required
+```shell
+python3 main.py [.json file name/ file path] [--plot True]
+```
 
+`--plot` argument is optional, only put some value when plots are required
 
 ### Example usage
 
-- To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
+1. To just update the .json file with new data
 
-	./main.py testfile.json --plot true
+```shell
+python3 main.py	GS019049.json
+```
 
-- To just update the .json file with new data
+2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
-	./main.py testfile.json
+```shell
+python3 main.py	GS019049.json --plot true
+```
 
 ## Camera support
 
-This script has been tested and confirmed working for
+This script has been tested and confirmed working for:
 
-* GoPro MAX (firmware > )
+* GoPro MAX running firmware: H19.03.02.00.00 (shows on camera LCD as 02.00)
 
 ## How it works
 
