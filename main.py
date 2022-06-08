@@ -124,10 +124,14 @@ mag_val = np.array(mag_val)
 calc_heading_r = []
 calc_heading_d = []
 for i in range(len(timestamp_mag)):
-    rpy = euler_from_quaternion(cam_val_syc[i][0],cam_val_syc[i][3],cam_val_syc[i][1],cam_val_syc[i][2])
-    Mx = mag_val[i,1]*math.cos(rpy[1]) + mag_val[i,2]*math.sin(rpy[1])
-    My = mag_val[i,1]*math.sin(rpy[0])*math.sin(rpy[1]) + mag_val[i,2]*math.cos(rpy[0]) - mag_val[i,0]*math.sin(rpy[0])*math.cos(rpy[1])
+    rpy = euler_from_quaternion(cam_val_syc[i][0],cam_val_syc[i][1],cam_val_syc[i][2],cam_val_syc[i][3]) # w,z,x,y
+    mx = mag_val[i,0]
+    my = mag_val[i,1]
+    mz = mag_val[i,2]
+    Mx = mx*math.cos(rpy[1]) + my*math.sin(rpy[1])
+    My = mx*math.sin(rpy[0])*math.sin(rpy[1]) + my*math.cos(rpy[0]) - mz*math.sin(rpy[0])*math.cos(rpy[1])
     M_yaw = math.atan2(My,Mx)
+    #M_yaw = math.atan2()
     #calc_heading.append(M_yaw*(180/math.pi))
     calc_heading_r.append(M_yaw)
     calc_heading_d.append(M_yaw*(180/math.pi))
@@ -147,7 +151,7 @@ if plot_option:
     plt.figure()
     plt.plot(timestamp_mag,calc_heading_d)
     plt.title('Camera Compass Heading Angle')
-    plt.ylim(-180,180)
+    #plt.ylim(-3.14,3.14)
     plt.xlabel('Time(s)')
     plt.ylabel('Compass Angle (rad)')
     plt.savefig('heading.png')
