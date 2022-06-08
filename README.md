@@ -1,6 +1,6 @@
 # GoPro RPY
 
-A proof-of-concept to use GoPro telemetry to automatically adjust roll, pitch, and yaw in processed equirectangular videos/
+A proof-of-concept to use gopro-telemetry to automatically adjust roll, pitch, and yaw in processed equirectangular videos/
 
 Read this post for a bit more information about our thought processes in building this: https://www.trekview.org/blog/2022/calculating-heading-of-gopro-video-using-gpmf-part-1/
 
@@ -27,74 +27,95 @@ add arguments in command line
 
 	./main.py testfile.json
 
+## Camera support
+
+This script has been tested and confirmed working for
+
+* GoPro MAX (firmware > )
+
 ## How it works
 
+### 1. Calculating yaw, pitch and roll values
+
+Camera orientation `CORI` is a relative measurement (the orientation relative to the orientation the sensor had when the acquisition started). It is reported in Quaternions in the order `w`,`x`,`y`,`z` in gopro-telemetry.
+
+```json
+"CORI":{
+  "samples":[{
+    "value":[0.9989318521683401,-0.024964140751365705,0.02621539963988159,0.029206213568529312],
+    "cts":176.62,
+    "date":"2022-05-26T08:35:42.485Z",
+    "sticky":{
+      "VPTS":1261037}
+    },
+```
+
+To calculate yaw, pitch and roll values from this data we take the four Quarternation values (Euler Parameters) and convert them into Euler angles on each axis.
+
+The equations to do this are somewhat complex, as you'll see from a cursory scan of this Wikipedia article; [Conversion between Quaternions and Euler angles](
+https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles), or by examining the code in `main.py`.
+
+### 2. Calculating heading values
+
+Values from the Magnetometer are reported in the axis order `z`,`x`,`y` in MicroTeslas in gopro-telemetry. 
+
+```json
+"MAGN":{
+	"samples":[{
+		"value":[-4,88,27],
+		"cts":163.461,
+		"date":"2022-05-26T08:35:42.485Z"
+	},
+```
+
+To calculate heading values we first sync `MAGN` samples with their closest `CORI` sample.
+
+Once the times have been synced and each `MAGN` sample has a corresponding `CORI` sample we can calculate the magnetic heading using the formula:
+
+```
+Mx = mx * cos(p) + my * sin(p)
+My = mx * cos(r) * sin(p) + my * cos(r) + mz * sin(r) * cos (p)
+M_yaw = atan2(My,Mx)
+```
+
+Where:
+
+* `mx` = magnetometer x reading
+* `my` = magnetometer y reading
+* `mz` = magnetometer z reading
+* `r` = roll angle
+* `p` = pitch angle
+
+_Be careful not to confuse `My` and `my` / `Mx` and `mx` (they are different variables). For clarity; `my` is the magnetic component in y direction, `My` is the output of the second equation which is approximately corrected y component of the magnetic field. The same explanation applies for `Mx` and `mx`._
+
+### 3. Writing new values to gopro-telemetry
+
+This script then writes out a new telemetry file (`INPUT-calculated.json`) with the following values:
+
+* `RPYR`:
+	* name: roll, pitch, yaw (x,y,z)
+	* units: radians
+	* cts: milliseconds since video start
+	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
+* `RPYD`
+	* name: roll, pitch, yaw (x,y,z)
+	* units: degrees
+	* cts: milliseconds since video start
+	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
+* `HEAR`
+	* name: magnetic heading
+	* units: radians
+	* cts: milliseconds since video start
+	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
+* `HEAD`
+	* name: magnetic heading
+	* units: degrees
+	* cts: milliseconds since video start
+	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
+
+### 4. Use to level / adjust video
+
 TODO
-
-Documentation-
-Roll, Pitch, Yaw extraction and Heading calculation
-v1.0
-
-Main Files Required
-- main.py
-- .json data file
-
-Functions
-
-- get_sec - 			outputs timestamps in seconds. Convert time in HH:MM:SS.SSSS format to seconds.
-- euler_from_quaternion - 	takes in quaternion in (W,X,Y,Z) format and outputs Euler roll pitch and 
-				yaw angles in [roll_x, pitch_y, yaw_z] format in radians.
-
-Working
-
-	- Loading the .json file (file name should be provided in the file_name variables
-	- Extracting the [CORI] and [MAGN] data along with their timesteps and storing them in variables
-	- Processing the quaternion format from the CORI data into euler form and storing the data in a numpy array
-  	  using the euler_from_quaternion function
-	- Saves the Plot of RPY values
-	- Processing the MAGN data to identify the angle from the x, y components of magnetic field using
-	  atan2(my/mx) operation and storing the value in degrees
-	- Saves the Plot of Heading values
-	- Creating new fields in the already opened .json file
-
-	- New fields added under ['streams']
-		- RPY
-			- samples
-				- values : [list of roll pitch yaw angles]
-				- time : list of timestamps
-		- HEAD
-			- samples
-				- values : [list of heading angles]
-				- time : list of timestamps
-	
-	- saves the updated .json file with a specified name
-_________________________________________________________________________________________________________________
-
-Roll, Pitch, Yaw extraction and Heading calculation
-v2.0
-
-Main Files Required
-- main2.py
-- .json data file
-
-Update
-
-	- Heading is now calculated by creating a synchronized CORI data following the MAGN data
-		Functioning - 
-				an update index window is selected (eg 5)
-				timestep differences in the range of index (i - window, i + window) of the CORI values
-				index with the least difference is selected and corresponding quaternion value is appended
-	- Method of Heading calculation is updated
-		Formula used - 
-				Mx = mx * cos(p) + my * sin(p)
-				My = mx * cos(r) * sin(p) + my * cos(r) + mz * sin(r) * cos (p)
-				M_yaw = atan2(My,Mx)
-
-				mx = magnetometer x reading
-				my = magnetometer y reading
-				mz = magnetometer z reading
-				r = roll angle
-				p = pitch angle
 
 ## Support
 
