@@ -119,6 +119,33 @@ This script then writes out a new telemetry file (`INPUT-calculated.json`) with 
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
 
+For reference, here's a sample of the first and last `HEAD` entry in a telemetry file to demo the structure of the object;
+
+```json
+"HEAD": {
+	"samples": [
+		{
+			"value": 2.4325704405863235,
+			"cts": 189.758,
+			"date": "2022-06-08T11:46:54.225Z"
+		},
+```
+
+...
+
+
+```json
+		{
+			"value": -1.9311572331906321,
+			"cts": 21121.995333333347,
+			"date": "2022-06-08T11:47:15.591Z"
+		}
+	],
+	"name": "magnetic heading",
+	"units": "degrees"
+	}
+},
+```
 ### 4. Use to level / adjust video
 
 TODO
