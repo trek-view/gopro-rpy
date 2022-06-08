@@ -153,7 +153,7 @@ if plot_option:
     plt.legend(['Roll','Pitch','Yaw'])
     plt.xlabel('Time(s)')
     plt.ylabel('Angle')
-    plt.savefig('RPY.png')
+    plt.savefig(file_name[:-5]+'-'+'RPY.png')
 
     # plot heading
     plt.figure()
@@ -162,7 +162,7 @@ if plot_option:
     #plt.ylim(-3.14,3.14)
     plt.xlabel('Time(s)')
     plt.ylabel('Compass Angle (rad)')
-    plt.savefig('heading.png')
+    plt.savefig(file_name[:-5]+'-'+'heading.png')
     print('graph plotted')
 else:
     print('no graph plotted')
