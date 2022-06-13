@@ -4,6 +4,7 @@ import json
 import numpy as np  
 import matplotlib.pyplot as plt
 import math
+import process
 
 def get_sec(time_str):
     # Get seconds from time in hours,minutes,sec
@@ -41,7 +42,9 @@ def euler_from_quaternion(w, x, y, z):
 
 parser = argparse.ArgumentParser(description="update the sensor json file")
 parser.add_argument('file', help= 'input json file to be processed')
+parser.add_argument('--video_input', help= 'input video file to be processed')
 parser.add_argument('--plot', help= 'plot the roll pitch yaw and magnetic headings')
+parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = roll,pitch,yaw, default = yaw', default='yaw')
 args = parser.parse_args()
 
 file_name = args.file
@@ -215,3 +218,7 @@ f2 = open(file_name[:-5]+'-calculated.json','a')
 f2.write(updated_file)
 f2.close()
 f.close()
+
+if args.video_input:
+    process.extract(args.video_input)
+    process.adjust_heading(data, args.mode)

@@ -14,10 +14,14 @@ Read this post for a bit more information about our thought processes in buildin
 add arguments in command line
 
 ```shell
-python3 main.py [.json file name/ file path] [--plot True]
+python3 main.py [.json file name/ file path] [--video_input video file path] [--plot True] [--mode roll,pitch,yaw]
 ```
 
-`--plot` argument is optional, only put some value when plots are required
+`--video_input` argument is optional, a video file path to process. To be used along with --mode option.
+
+`--plot` argument is optional, only put some value when plots are required.
+
+`--mode` argument is optional, a comma-seperated mode to adjust roll, pitch, or yaw. Defaults to yaw.
 
 ### Example usage
 
@@ -31,6 +35,24 @@ python3 main.py	GS019049.json
 
 ```shell
 python3 main.py	GS019049.json --plot true
+```
+
+3. To adjust yaw of worldlocked 360 video. 
+
+```shell
+python3 main.py	GS010013-worldlock.json --video_input GS010011-worldlock.mp4 --mode yaw
+```
+
+4. To level horizon using roll on 360 video. 
+
+```shell
+python3 main.py	GS010011-roll.json --video_input GS010011.mp4 --mode roll
+```
+
+5. To level horizon using pitch on 360 video. 
+
+```shell
+python3 main.py	GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
 ```
 
 ## Camera support
