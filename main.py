@@ -178,8 +178,8 @@ for i in range(len(rpyr_arr)):
 hear_list = []
 head_list = []
 for i in range(len(calc_heading_d)):
-    hear_list.append({'value':calc_heading_d[i],'cts':mag_cts[i],'date':mag_date[i]})
-    head_list.append({'value':calc_heading_r[i],'cts':mag_cts[i],'date':mag_date[i]})
+    hear_list.append({'value':calc_heading_r[i],'cts':mag_cts[i],'date':mag_date[i]})
+    head_list.append({'value':calc_heading_d[i],'cts':mag_cts[i],'date':mag_date[i]})
 
 #rpy rad
 #rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}
