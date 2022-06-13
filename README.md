@@ -239,6 +239,14 @@ To do this, we assume the first `HEAD` value to be the World Lock heading (aka t
 
 Then all that's required is to subtract the World Lock heading from the true compass heading (reported in the telemetry) to get the yaw off-set for the frame and use-open CV to modify the frame appropriately ([although executed differently, the logic to do this is described in detail here](https://www.trekview.org/blog/2022/adjusting-yaw-equirectangular-images/))
 
+**Note on adjusting Yaw in non-World Lock Videos**
+
+Let's say your camera is mounted to a monopod and is a few degrees in the wrong direction (perhaps your helmet mount isn't perfectly straight). In this case you can use a fixed offset in ffmpeg (no need for this script) to the frames using the `v360` filter. Here is an example adjusting yaw by 3 degrees:
+
+```shell
+ffmpeg -i INPUT.mp4 -vf v360=e:e:yaw=3 OUTPUT.mp4
+```
+
 #### 4.2 Auto level roll (`--level_roll`)
 
 Roll in video can cause the horizon to sway from side to side. By leveling roll, you can keep the horizon level.
