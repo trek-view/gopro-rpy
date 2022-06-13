@@ -119,6 +119,13 @@ This script then writes out a new telemetry file (`INPUT-calculated.json`) with 
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
 
+Note on values:
+
+* roll (`RPYD`): between `-180` and `180`
+* pitch (`RPYD`): between `-90` and `90`
+* yaw (`RPYD`/`RPYR`): between `-180` and `180`
+* magnetic heading (`HEAR` / `HEAD`): between `-180` and `180` (`0` is North)
+
 For reference, here's a sample of the first and last `HEAD` entry in a telemetry file to demo the structure of the object;
 
 ```json
