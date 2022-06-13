@@ -36,7 +36,7 @@ def adjust_heading(data, mode="roll,pitch,yaw"):
     frames = [f for f in os.listdir(extract_dir)]
     work_dir = os.path.join(video_dir, "ADJUSTED")
     
-    headvals = data['1']['streams']['HEAR']['samples']
+    headvals = data['1']['streams']['HEAD']['samples']
     headlen = len(headvals)
     headi = 1
     world_lock_headval = headvals[0]['value']
