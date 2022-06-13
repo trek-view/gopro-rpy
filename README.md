@@ -21,6 +21,8 @@ python3 main.py [.json file name/ file path] [--plot True]
 
 ### Example usage
 
+_[The sample videos used in this readme are available here](https://drive.google.com/drive/u/1/folders/1cgAmMHVTFZA2RK7ZYpEs50B-XGdIP_Sz)._
+
 #### 1. To just update the .json file with new data
 
 ```shell

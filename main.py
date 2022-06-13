@@ -158,7 +158,7 @@ if plot_option:
     plt.title('Camera Roll, Pitch and Yaw angle variance')
     plt.legend(['Roll','Pitch','Yaw'])
     plt.xlabel('Time(s)')
-    plt.ylabel('Angle')
+    plt.ylabel('Angle degrees')
     plt.savefig(file_name[:-5]+'-'+'RPY.png')
 
     # plot heading
