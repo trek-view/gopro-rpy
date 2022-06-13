@@ -121,10 +121,10 @@ This script then writes out a new telemetry file (`INPUT-calculated.json`) with 
 
 Note on values:
 
-* roll (`RPYD`): between `-180` and `180`
-* pitch (`RPYD`): between `-90` and `90`
-* yaw (`RPYD`/`RPYR`): between `-180` and `180`
-* magnetic heading (`HEAR` / `HEAD`): between `-180` and `180` (`0` is North)
+* roll (`RPYD`): between `-180` and `180` (degrees)
+* pitch (`RPYD`): between `-90` and `90` (degrees)
+* yaw (`RPYD`): between `-180` and `180` (degrees)
+* magnetic heading (`HEAD`): between `-180` and `180` (`0` is North) (degrees)
 
 For reference, here's a sample of the first and last `HEAD` entry in a telemetry file to demo the structure of the object;
 
