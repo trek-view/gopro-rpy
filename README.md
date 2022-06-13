@@ -181,7 +181,7 @@ Values between `-180` and `180` (degrees).
 
 Video input:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/GDtz_K6k-Dg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![GS010012](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
 
 Output of script (using `--plot True`):
 
@@ -197,7 +197,9 @@ TODO
 
 Values between `-90` and `90` (degrees).
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/xCjSPYIKN68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Video input:
+
+[![GS010012](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
 
 Output of script (using `--plot True`):
 
@@ -213,7 +215,7 @@ TODO
 
 Values between `-180` and `180` (degrees)
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/kBlqZx21_6g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![GS010012](https://img.youtube.com/vi/kBlqZx21_6g/0.jpg)](https://youtu.be/kBlqZx21_6g)
 
 ![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
 
