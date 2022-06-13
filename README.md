@@ -36,13 +36,13 @@ python3 main.py docs/GS010013-worldlock.json --plot true
 #### 3. To adjust yaw of video processed with World Lock mode = true to original of a 360 video
 
 ```shell
-python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode yaw
+python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode unworldlock
 ```
 
 #### 4. To automatically level the horizon using roll of a 360 video
 
 ```shell
-python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode roll
+python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode level_roll
 ```
 
 #### 5. To automatically level the horizon using roll of a 360 video
@@ -227,7 +227,33 @@ TODO
 
 ### 4. Use to level / adjust video
 
-TODO
+This proof of concept was developer with 3 use-cases in mind
+
+#### 4.1 Adjustment for World Lock (`--unworldlock`)
+
+World Lock fixes the heading of the video (so the video always faces the same compass heading).
+
+One aim was to reverse the World Lock setting and show video using the true heading of the cameras front lens.
+
+To do this, we assume the first `HEAD` value to be the World Lock heading (aka the heading all the frames are fixed to).
+
+Then all that's required is to subtract the World Lock heading from the true compass heading (reported in the telemetry) to get the yaw off-set for the frame and use-open CV to modify the frame appropriately ([although executed differently, the logic to do this is described in detail here](https://www.trekview.org/blog/2022/adjusting-yaw-equirectangular-images/))
+
+#### 4.2 Auto level roll (`--level_roll`)
+
+Roll in video can cause the horizon to sway from side to side. By leveling roll, you can keep the horizon level.
+
+To do this, we assume yaw (x) = `0` to be level. Any frames where `x` does not equal `0` means the camera is rolling.
+
+All that's then needed is to take the difference between the roll reported in the telemetry and 0 to get the roll offset for the frame and use ffmpeg to adjust accordingly.
+
+#### 4.3 Auto level pitch (`--level_pitch`)
+
+This one was more for fun. We didn't really have a true use-case for it, but wanted to 
+
+Similar to roll, we assume pitch (y) = `0` to be level. Any frames where `y` does not equal `0` means the camera is pitching.
+
+All that's then needed is to take the difference between the pitch reported in the telemetry and 0 to get the pitch offset for the frame and use ffmpeg to adjust accordingly.
 
 ## Support
 
