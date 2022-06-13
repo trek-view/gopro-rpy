@@ -37,7 +37,13 @@ def euler_from_quaternion(w, x, y, z):
         yaw_z = math.atan2(t3, t4) # rad
      
         return [roll_x, pitch_y, yaw_z] # in radians
-    
+
+def ang2compass(ang):
+    if ang < 0:
+        return ang+360
+    else:
+        return ang    
+
 # parsing arguments
 
 parser = argparse.ArgumentParser(description="update the sensor json file")
@@ -136,16 +142,16 @@ calc_heading_r = []
 calc_heading_d = []
 for i in range(len(timestamp_mag)):
     rpy = euler_from_quaternion(cam_val_syc[i][0],cam_val_syc[i][1],cam_val_syc[i][2],cam_val_syc[i][3]) # w,z,x,y
-    mx = mag_val[i,0]
+    mx = mag_val[i,2]
     my = mag_val[i,1]
-    mz = mag_val[i,2]
+    mz = mag_val[i,0]
     Mx = mx*math.cos(rpy[1]) + my*math.sin(rpy[1])
     My = mx*math.sin(rpy[0])*math.sin(rpy[1]) + my*math.cos(rpy[0]) - mz*math.sin(rpy[0])*math.cos(rpy[1])
     M_yaw = math.atan2(My,Mx)
     #M_yaw = math.atan2()
     #calc_heading.append(M_yaw*(180/math.pi))
     calc_heading_r.append(M_yaw)
-    calc_heading_d.append(M_yaw*(180/math.pi))
+    calc_heading_d.append(ang2compass(M_yaw*(180/math.pi)))
 
 # plot graphs
 if plot_option:
@@ -155,7 +161,7 @@ if plot_option:
     plt.title('Camera Roll, Pitch and Yaw angle variance')
     plt.legend(['Roll','Pitch','Yaw'])
     plt.xlabel('Time(s)')
-    plt.ylabel('Angle degrees')
+    plt.ylabel('Angle')
     plt.savefig(file_name[:-5]+'-'+'RPY.png')
 
     # plot heading
@@ -164,7 +170,7 @@ if plot_option:
     plt.title('Camera Compass Heading Angle')
     #plt.ylim(-3.14,3.14)
     plt.xlabel('Time(s)')
-    plt.ylabel('Compass Angle degrees from North')
+    plt.ylabel('Compass Angle degrees. 0 is North')
     plt.savefig(file_name[:-5]+'-'+'heading.png')
     print('graph plotted')
 else:
@@ -181,8 +187,8 @@ for i in range(len(rpyr_arr)):
 hear_list = []
 head_list = []
 for i in range(len(calc_heading_d)):
-    hear_list.append({'value':calc_heading_d[i],'cts':mag_cts[i],'date':mag_date[i]})
-    head_list.append({'value':calc_heading_r[i],'cts':mag_cts[i],'date':mag_date[i]})
+    head_list.append({'value':calc_heading_d[i],'cts':mag_cts[i],'date':mag_date[i]})
+    hear_list.append({'value':calc_heading_r[i],'cts':mag_cts[i],'date':mag_date[i]})
 
 #rpy rad
 #rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}

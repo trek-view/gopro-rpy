@@ -25,16 +25,34 @@ python3 main.py [.json file name/ file path] [--video_input video file path] [--
 
 ### Example usage
 
-1. To just update the .json file with new data
+#### 1. To just update the .json file with new data
 
 ```shell
-python3 main.py	GS019049.json
+python3 main.py	docs/GS010013-worldlock.json
 ```
 
-2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
+#### 2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
 ```shell
-python3 main.py	GS019049.json --plot true
+python3 main.py docs/GS010013-worldlock.json --plot true
+```
+
+#### 3. To adjust yaw of video processed with World Lock mode = true to original of a 360 video
+
+```shell
+python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode unworldlock
+```
+
+#### 4. To automatically level the horizon using roll of a 360 video
+
+```shell
+python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode level_roll
+```
+
+#### 5. To automatically level the horizon using roll of a 360 video
+
+```shell
+python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
 ```
 
 3. To adjust yaw of worldlocked 360 video. 
@@ -141,6 +159,8 @@ This script then writes out a new telemetry file (`INPUT-calculated.json`) with 
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
 
+#### Notes on calculated data
+
 For reference, here's a sample of the first and last `HEAD` entry in a telemetry file to demo the structure of the object;
 
 ```json
@@ -168,9 +188,146 @@ For reference, here's a sample of the first and last `HEAD` entry in a telemetry
 	}
 },
 ```
-### 4. Use to level / adjust video
+
+You can see the `-calculated.json` files with all fields listed in the `/docs` directory of this repository.
+
+##### Magnetic Heading
+
+**`HEAR`**
+
+Values between `-pi` to `pi` (`0` is North) (radians)
+
+**`HEAD`**
+
+Values between `0` and `360` (`0` is North, `90` is East, etc.) (degrees)
+
+Graphs shown below for example Roll, Pitch, Yaw videos.
+
+##### (x) Roll (`RPYD`)
+
+Values between `-180` and `180` (degrees).
+
+Video input:
+
+[![GS010011](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
+
+Command:
+
+```shell
+python3 main.py docs/GS010011-roll.json --plot true
+```
+
+Output:
+
+![RPY GS010011.mp4](/docs/GS010011-roll-RPY.png)
+
+![Magnetic heading GS010011.mp4](/docs/GS010011-roll-heading.png)
+
+Adjusted video using `--mode roll`:
 
 TODO
+
+##### (y) Pitch (`RPYD`)
+
+Values between `-90` and `90` (degrees).
+
+Video input:
+
+[![GS010010](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
+
+Command:
+
+```shell
+python3 main.py docs/GS010010-pitch.json --plot true
+```
+
+Output:
+
+![RPY GS010010.mp4](/docs/GS010010-pitch-RPY.png)
+
+![Magnetic heading GS010010.mp4](/docs/GS010010-pitch-heading.png)
+
+Adjusted video using `--mode pitch`:
+
+TODO
+
+##### (z) Yaw (`RPYD`)
+
+Values between `-180` and `180` (degrees)
+
+[![GS010012](https://img.youtube.com/vi/kBlqZx21_6g/0.jpg)](https://youtu.be/kBlqZx21_6g)
+
+Command:
+
+```shell
+python3 main.py docs/GS010012-yaw.json --plot true
+```
+
+Output:
+
+![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
+
+![Magnetic heading GS010012.mp4](/docs/GS010012-yaw-heading.png)
+
+Adjusted video using `--mode yaw`:
+
+TODO
+
+### 4. Use to level / adjust video
+
+This proof of concept was developer with 3 use-cases in mind
+
+#### 4.1 Adjustment for World Lock (`--unworldlock`)
+
+World Lock fixes the heading of the video (so the video always faces the same compass heading).
+
+One aim was to reverse the World Lock setting and show video using the true heading of the cameras front lens.
+
+To do this, we assume the first `HEAD` value to be the World Lock heading (aka the heading all the frames are fixed to).
+
+Then all that's required is to subtract the World Lock heading from the true compass heading (reported in the telemetry) to get the yaw off-set for the frame and use-open CV to modify the frame appropriately ([although executed differently, the logic to do this is described in detail here](https://www.trekview.org/blog/2022/adjusting-yaw-equirectangular-images/))
+
+##### 4.1.1 Example
+
+Video input:
+
+[![GS010013-worldlock](https://img.youtube.com/vi/3Hces_LyGZU/0.jpg)](https://youtu.be/3Hces_LyGZU)
+
+```shell
+python3 main.py docs/GS010013-worldlock.json --plot true --video_input GS010013-worldlock.mp4 --mode unworldlock
+```
+
+Output:
+
+![RPY GS010013-worldlock.mp4](/docs/GS010013-worldlock-RPY.png)
+
+![Magnetic heading GS010013-worldlock.mp4](/docs/GS010013-worldlock-heading.png)
+
+TODO
+
+##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
+
+Let's say your camera is mounted to a monopod and is a few degrees in the wrong direction (perhaps your helmet mount isn't perfectly straight). In this case you can use a fixed offset in ffmpeg (no need for this script) to the frames using the `v360` filter. Here is an example adjusting yaw by 3 degrees):
+
+```shell
+ffmpeg -i INPUT.mp4 -vf v360=e:e:yaw=3 OUTPUT.mp4
+```
+
+#### 4.2 Auto level roll (`--level_roll`)
+
+Roll in video can cause the horizon to sway from side to side. By leveling roll, you can keep the horizon level.
+
+To do this, we assume yaw (x) = `0` to be level. Any frames where `x` does not equal `0` means the camera is rolling.
+
+All that's then needed is to take the difference between the roll reported in the telemetry and 0 to get the roll offset for the frame and use ffmpeg to adjust accordingly.
+
+#### 4.3 Auto level pitch (`--level_pitch`)
+
+This one was more for fun. We didn't really have a true use-case for it, but wanted to 
+
+Similar to roll, we assume pitch (y) = `0` to be level. Any frames where `y` does not equal `0` means the camera is pitching.
+
+All that's then needed is to take the difference between the pitch reported in the telemetry and 0 to get the pitch offset for the frame and use ffmpeg to adjust accordingly.
 
 ## Support
 
