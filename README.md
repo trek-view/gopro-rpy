@@ -245,7 +245,7 @@ Output:
 
 ![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
 
-![Magnetic heading GS010012.mp4](/docs/GS010010-yaw-heading.png)
+![Magnetic heading GS010012.mp4](/docs/GS010012-yaw-heading.png)
 
 Adjusted video using `--mode yaw`:
 
