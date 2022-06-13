@@ -24,31 +24,31 @@ python3 main.py [.json file name/ file path] [--plot True]
 #### 1. To just update the .json file with new data
 
 ```shell
-python3 main.py	GS019049.json
+python3 main.py	docs/GS010013-worldlock.json
 ```
 
 #### 2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
 ```shell
-python3 main.py	GS019049.json --plot true
+python3 main.py docs/GS010013-worldlock.json --plot true
 ```
 
 #### 3. To adjust yaw of video processed with World Lock mode = true to original of a 360 video
 
 ```shell
-python3 main.py	GS010013-worldlock.json --video_input GS010011-worldlock.mp4 --mode yaw
+python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode yaw
 ```
 
 #### 4. To automatically level the horizon using roll of a 360 video
 
 ```shell
-python3 main.py	GS010011-roll.json --video_input GS010011.mp4 --mode roll
+python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode roll
 ```
 
 #### 5. To automatically level the horizon using roll of a 360 video
 
 ```shell
-python3 main.py	GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
+python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
 ```
 
 ## Camera support
