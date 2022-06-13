@@ -21,16 +21,34 @@ python3 main.py [.json file name/ file path] [--plot True]
 
 ### Example usage
 
-1. To just update the .json file with new data
+#### 1. To just update the .json file with new data
 
 ```shell
 python3 main.py	GS019049.json
 ```
 
-2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
+#### 2. To update the .json file with new data and create plots of the roll pitch yaw and magnetic heading 
 
 ```shell
 python3 main.py	GS019049.json --plot true
+```
+
+#### 3. To adjust yaw of video processed with World Lock mode = true to original of a 360 video
+
+```shell
+python3 main.py	GS010013-worldlock.json --video_input GS010011-worldlock.mp4 --mode yaw
+```
+
+#### 4. To automatically level the horizon using roll of a 360 video
+
+```shell
+python3 main.py	GS010011-roll.json --video_input GS010011.mp4 --mode roll
+```
+
+#### 5. To automatically level the horizon using roll of a 360 video
+
+```shell
+python3 main.py	GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
 ```
 
 ## Camera support
@@ -119,12 +137,7 @@ This script then writes out a new telemetry file (`INPUT-calculated.json`) with 
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
 
-Note on values:
-
-* roll (`RPYD`): between `-180` and `180` (degrees)
-* pitch (`RPYD`): between `-90` and `90` (degrees)
-* yaw (`RPYD`): between `-180` and `180` (degrees)
-* magnetic heading (`HEAD`): between `-180` and `180` (`0` is North) (degrees)
+#### Notes on calculated data
 
 For reference, here's a sample of the first and last `HEAD` entry in a telemetry file to demo the structure of the object;
 
@@ -153,6 +166,63 @@ For reference, here's a sample of the first and last `HEAD` entry in a telemetry
 	}
 },
 ```
+
+You can see the `-calculated.json` files with all fields listed in the `/docs` directory of this repository.
+
+##### Magnetic Heading (`HEAD`)
+
+Values between `-180` and `180` (`0` is North) (degrees)
+
+Graphs shown below for example Roll, Pitch, Yaw videos.
+
+##### (x) Roll (`RPYD`)
+
+Values between `-180` and `180` (degrees).
+
+Video input:
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/GDtz_K6k-Dg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Output of script (using `--plot True`):
+
+![RPY GS010011.mp4](/docs/GS010011-roll-RPY.png)
+
+![Magnetic heading GS010011.mp4](/docs/GS010011-roll-heading.png)
+
+Adjusted video using `--mode roll`:
+
+TODO
+
+##### (y) Pitch (`RPYD`)
+
+Values between `-90` and `90` (degrees).
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/xCjSPYIKN68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Output of script (using `--plot True`):
+
+![RPY GS010010.mp4](/docs/GS010010-pitch-RPY.png)
+
+![Magnetic heading GS010010.mp4](/docs/GS010010-pitch-heading.png)
+
+Adjusted video using `--mode pitch`:
+
+TODO
+
+##### (z) Yaw (`RPYD`)
+
+Values between `-180` and `180` (degrees)
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/kBlqZx21_6g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
+
+![Magnetic heading GS010012.mp4](/docs/GS010010-yaw-heading.png)
+
+Adjusted video using `--mode yaw`:
+
+TODO
+
 ### 4. Use to level / adjust video
 
 TODO
