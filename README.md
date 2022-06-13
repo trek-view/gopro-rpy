@@ -187,9 +187,15 @@ Values between `-180` and `180` (degrees).
 
 Video input:
 
-[![GS010012](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
+[![GS010011](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
 
-Output of script (using `--plot True`):
+Command:
+
+```shell
+python3 main.py docs/GS010011-roll.json --plot true
+```
+
+Output:
 
 ![RPY GS010011.mp4](/docs/GS010011-roll-RPY.png)
 
@@ -205,9 +211,15 @@ Values between `-90` and `90` (degrees).
 
 Video input:
 
-[![GS010012](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
+[![GS010010](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
 
-Output of script (using `--plot True`):
+Command:
+
+```shell
+python3 main.py docs/GS010010-pitch.json --plot true
+```
+
+Output:
 
 ![RPY GS010010.mp4](/docs/GS010010-pitch-RPY.png)
 
@@ -222,6 +234,14 @@ TODO
 Values between `-180` and `180` (degrees)
 
 [![GS010012](https://img.youtube.com/vi/kBlqZx21_6g/0.jpg)](https://youtu.be/kBlqZx21_6g)
+
+Command:
+
+```shell
+python3 main.py docs/GS010012-yaw.json --plot true
+```
+
+Output:
 
 ![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
 
@@ -245,7 +265,23 @@ To do this, we assume the first `HEAD` value to be the World Lock heading (aka t
 
 Then all that's required is to subtract the World Lock heading from the true compass heading (reported in the telemetry) to get the yaw off-set for the frame and use-open CV to modify the frame appropriately ([although executed differently, the logic to do this is described in detail here](https://www.trekview.org/blog/2022/adjusting-yaw-equirectangular-images/))
 
-**Note on adjusting Yaw in non-World Lock Videos**
+##### 4.1.1 Example
+
+Video input:
+
+[![GS010013-worldlock](https://img.youtube.com/vi/3Hces_LyGZU/0.jpg)](https://youtu.be/3Hces_LyGZU)
+
+```shell
+python3 main.py docs/GS010013-worldlock.json --plot true --video_input GS010013-worldlock.mp4 --mode unworldlock
+```
+
+Output:
+
+![RPY GS010013-worldlock.mp4](/docs/GS010013-worldlock-RPY.png)
+
+![Magnetic heading GS010013-worldlock.mp4](/docs/GGS010013-worldlock-heading.png)
+
+##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
 
 Let's say your camera is mounted to a monopod and is a few degrees in the wrong direction (perhaps your helmet mount isn't perfectly straight). In this case you can use a fixed offset in ffmpeg (no need for this script) to the frames using the `v360` filter. Here is an example adjusting yaw by 3 degrees):
 
