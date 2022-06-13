@@ -167,7 +167,7 @@ if plot_option:
     plt.title('Camera Compass Heading Angle')
     #plt.ylim(-3.14,3.14)
     plt.xlabel('Time(s)')
-    plt.ylabel('Compass Angle (rad)')
+    plt.ylabel('Compass Angle degrees. 0 is North')
     plt.savefig(file_name[:-5]+'-'+'heading.png')
     print('graph plotted')
 else:

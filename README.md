@@ -279,7 +279,9 @@ Output:
 
 ![RPY GS010013-worldlock.mp4](/docs/GS010013-worldlock-RPY.png)
 
-![Magnetic heading GS010013-worldlock.mp4](/docs/GGS010013-worldlock-heading.png)
+![Magnetic heading GS010013-worldlock.mp4](/docs/GS010013-worldlock-heading.png)
+
+TODO
 
 ##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
 
