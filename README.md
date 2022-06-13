@@ -169,9 +169,15 @@ For reference, here's a sample of the first and last `HEAD` entry in a telemetry
 
 You can see the `-calculated.json` files with all fields listed in the `/docs` directory of this repository.
 
-##### Magnetic Heading (`HEAD`)
+##### Magnetic Heading
 
-Values between `-180` and `180` (`0` is North) (degrees)
+**`HEAR`**
+
+Values between `-pi` to `pi` (`0` is North) (radians)
+
+**`HEAD`**
+
+Values between `0` and `360` (`0` is North, `90` is East, etc.) (degrees)
 
 Graphs shown below for example Roll, Pitch, Yaw videos.
 
@@ -241,7 +247,7 @@ Then all that's required is to subtract the World Lock heading from the true com
 
 **Note on adjusting Yaw in non-World Lock Videos**
 
-Let's say your camera is mounted to a monopod and is a few degrees in the wrong direction (perhaps your helmet mount isn't perfectly straight). In this case you can use a fixed offset in ffmpeg (no need for this script) to the frames using the `v360` filter. Here is an example adjusting yaw by 3 degrees:
+Let's say your camera is mounted to a monopod and is a few degrees in the wrong direction (perhaps your helmet mount isn't perfectly straight). In this case you can use a fixed offset in ffmpeg (no need for this script) to the frames using the `v360` filter. Here is an example adjusting yaw by 3 degrees):
 
 ```shell
 ffmpeg -i INPUT.mp4 -vf v360=e:e:yaw=3 OUTPUT.mp4
