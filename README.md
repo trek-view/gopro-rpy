@@ -21,7 +21,7 @@ python3 main.py [.json file name/ file path] [--video_input video file path] [--
 
 `--plot` argument is optional, only put some value when plots are required.
 
-`--mode` argument is optional, a comma-seperated mode to adjust roll, pitch, or yaw. Defaults to yaw.
+`--mode` argument is optional, a comma-seperated mode to revert worldlock (`unworldlock`), level the horizon using roll (`level_roll`) or pitch (`pitch`). Defaults to `unworldlock`.
 
 ### Example usage
 
@@ -53,24 +53,6 @@ python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode level_
 
 ```shell
 python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
-```
-
-3. To adjust yaw of worldlocked 360 video. 
-
-```shell
-python3 main.py	GS010013-worldlock.json --video_input GS010011-worldlock.mp4 --mode yaw
-```
-
-4. To level horizon using roll on 360 video. 
-
-```shell
-python3 main.py	GS010011-roll.json --video_input GS010011.mp4 --mode roll
-```
-
-5. To level horizon using pitch on 360 video. 
-
-```shell
-python3 main.py	GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
 ```
 
 ## Camera support

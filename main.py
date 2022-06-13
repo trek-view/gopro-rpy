@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(description="update the sensor json file")
 parser.add_argument('file', help= 'input json file to be processed')
 parser.add_argument('--video_input', help= 'input video file to be processed')
 parser.add_argument('--plot', help= 'plot the roll pitch yaw and magnetic headings')
-parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = roll,pitch,yaw, default = yaw', default='yaw')
+parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = unworldlock,pitch,level_roll. Default = unworldlock', default='unworldlock')
 args = parser.parse_args()
 
 file_name = args.file

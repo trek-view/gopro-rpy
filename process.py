@@ -31,7 +31,7 @@ def extract(videopath):
     os.mkdir(extract_dir)
     os.system("ffmpeg -hide_banner -i " + videopath + " -r " + frame_rate_str + " -q:v 2 " + extract_dir + "/%9d.jpg")
 
-def adjust_heading(data, mode="roll,pitch,yaw"):
+def adjust_heading(data, mode="unworldlock"):
     global extract_dir, frame_rate, video_dir, frame_rate_str
     frames = [f for f in os.listdir(extract_dir)]
     work_dir = os.path.join(video_dir, "ADJUSTED")
@@ -57,11 +57,11 @@ def adjust_heading(data, mode="roll,pitch,yaw"):
     adjust_pitch = False
     adjust_yaw = False
 
-    if "roll" in mode :
+    if "level_roll" in mode :
         adjust_roll = True
     if "pitch" in mode :
         adjust_pitch = True
-    if "yaw" in mode :
+    if "unworldlock" in mode :
         adjust_yaw = True
 
     for frame in frames:
