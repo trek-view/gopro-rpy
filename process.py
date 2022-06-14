@@ -64,7 +64,7 @@ def adjust_heading(data, mode="unworldlock"):
 
     if "level_roll" in mode :
         adjust_roll = True
-    if "pitch" in mode :
+    if "level_pitch" in mode :
         adjust_pitch = True
     if "unworldlock" in mode :
         adjust_yaw = True
