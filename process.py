@@ -76,10 +76,34 @@ def adjust_heading(data, mode="unworldlock"):
 
         options = []
 
+        if adjust_roll or adjust_pitch :
+            while frame_time > rpyvals[rpyi]['cts'] and rpyi != (rpylen - 1) :
+                rpyi += 1
+
+            # get the nearest cts below frame_time
+            rpyi -= 1
+
+            if adjust_roll :
+                value_roll = rpyvals[rpyi]['value'][0]
+                options.append("roll=%f" % (value_roll))
+
+            if adjust_pitch :
+                value_pitch = rpyvals[rpyi]['value'][1] * -1.0
+                options.append("pitch=%f" % (value_pitch))
+        
         if adjust_yaw :
+            if framei == 0 :
+                shutil.copy(os.path.join(extract_dir,frame), os.path.join(work_dir,frame))
+                frame_time += frame_interval
+                framei += 1
+                continue
+
             while frame_time > headvals[headi-1]['cts'] and headi != (headlen - 1) :
                 headi += 1
             
+            # get the nearest cts below frame_time
+            headi -= 1
+
             headval = headvals[headi]['value']
             # calculate the yaw adjustment needed using the calculation true heading - World Lock heading
             d_headval = headval - world_lock_headval
@@ -89,18 +113,6 @@ def adjust_heading(data, mode="unworldlock"):
                 d_headval += 360
             
             options.append("yaw=%f" % (d_headval))
-
-        if adjust_roll or adjust_pitch :
-            while frame_time > rpyvals[rpyi]['cts'] and rpyi != (rpylen - 1) :
-                rpyi += 1
-
-            if adjust_roll :
-                value_roll = rpyvals[rpyi]['value'][0]
-                options.append("roll=%f" % (value_roll))
-
-            if adjust_pitch :
-                value_pitch = rpyvals[rpyi]['value'][1] * -1.0
-                options.append("pitch=%f" % (value_pitch))
 
         frame_path = os.path.join(extract_dir,frame)
         out_path = os.path.join(work_dir,frame)
