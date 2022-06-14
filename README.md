@@ -14,7 +14,7 @@ Read this post for a bit more information about our thought processes in buildin
 Add arguments in command line
 
 ```shell
-python3 main.py [.json file name/ file path] [--plot True]
+python3 main.py [.json telemetry file] [--plot] [--video_input] [--mode]
 ```
 
 * `--plot` argument is optional, only put some value when plots are required
@@ -41,19 +41,19 @@ python3 main.py docs/GS010013-worldlock.json --plot true
 #### 3. To adjust yaw of video processed with World Lock mode = true to original of a 360 video
 
 ```shell
-python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode unworldlock
+python3 main.py docs/GS010013-worldlock.json --video_input docs/GS010013-worldlock.mp4 --mode unworldlock
 ```
 
-#### 4. To automatically level the roll (horizon) of a 360 video
+#### 4. To automatically level the roll (horizon) of a 360 video with a plot
 
 ```shell
-python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode level_roll
+python3 main.py docs/GS010011-roll.json --plot true --video_input docs/GS010011.mp4 --mode level_roll
 ```
 
 #### 5. To automatically level the pitch of a 360 video
 
 ```shell
-python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode level_pitch
+python3 main.py docs/GS010010-pitch.json --video_input docs/GS010010.mp4 --mode level_pitch
 ```
 
 ## Camera support
@@ -192,7 +192,7 @@ Values between `-180` and `180` (degrees).
 
 Video input:
 
-[![GS010011](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
+[![GS010011.mp4](https://img.youtube.com/vi/GDtz_K6k-Dg/0.jpg)](https://youtu.be/GDtz_K6k-Dg)
 
 Command:
 
@@ -206,9 +206,9 @@ Output:
 
 ![Magnetic heading GS010011.mp4](/docs/GS010011-roll-heading.png)
 
-Adjusted video using `--mode roll`:
+Adjusted video:
 
-TODO
+[![GS010011-level_roll.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
 
 ##### (y) Pitch (`RPYD`)
 
@@ -216,12 +216,12 @@ Values between `-90` and `90` (degrees).
 
 Video input:
 
-[![GS010010](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
+[![GS010010.mp4](https://img.youtube.com/vi/xCjSPYIKN68/0.jpg)](https://youtu.be/xCjSPYIKN68)
 
 Command:
 
 ```shell
-python3 main.py docs/GS010010-pitch.json --plot true
+python3 main.py docs/GS010010-pitch.json --plot true --video_input docs/GS010010.mp4 --mode level_pitch
 ```
 
 Output:
@@ -232,17 +232,13 @@ Output:
 
 Adjusted video:
 
-```shell
-python3 main.py docs/GS010010-pitch.json --plot true --video_input GS010010.mp4 --mode level_pitch
-```
-
-TODO
+[![GS010010-level_pitch.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
 
 ##### (z) Yaw (`RPYD`)
 
 Values between `-180` and `180` (degrees)
 
-[![GS010012](https://img.youtube.com/vi/kBlqZx21_6g/0.jpg)](https://youtu.be/kBlqZx21_6g)
+[![GS010012.mp4](https://img.youtube.com/vi/kBlqZx21_6g/0.jpg)](https://youtu.be/kBlqZx21_6g)
 
 Command:
 
@@ -255,10 +251,6 @@ Output:
 ![RPY GS010012.mp4](/docs/GS010012-yaw-RPY.png)
 
 ![Magnetic heading GS010012.mp4](/docs/GS010012-yaw-heading.png)
-
-Adjusted video using `--mode yaw`:
-
-TODO
 
 ### 4. Use to level / adjust video
 
@@ -281,7 +273,7 @@ Video input:
 [![GS010013-worldlock](https://img.youtube.com/vi/3Hces_LyGZU/0.jpg)](https://youtu.be/3Hces_LyGZU)
 
 ```shell
-python3 main.py docs/GS010013-worldlock.json --plot true --video_input GS010013-worldlock.mp4 --mode unworldlock
+python3 main.py docs/GS010013-worldlock.json --plot true --video_input docs/GS010013-worldlock.mp4 --mode unworldlock
 ```
 
 Output:
@@ -290,7 +282,7 @@ Output:
 
 ![Magnetic heading GS010013-worldlock.mp4](/docs/GS010013-worldlock-heading.png)
 
-TODO
+[![GS010013-worldlock-unworldlock.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
 
 ##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
 
