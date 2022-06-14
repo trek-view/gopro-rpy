@@ -1,5 +1,3 @@
-import numpy as np
-import cv2
 import ffmpeg
 import os
 import shutil
@@ -71,8 +69,7 @@ def adjust_heading(data, mode="unworldlock"):
 
     for frame in frames:
         if framei == 0 :
-            img = np.array(cv2.imread(os.path.join(extract_dir,frame)))
-            cv2.imwrite(os.path.join(work_dir,frame), np.array(img))
+            shutil.copy(os.path.join(extract_dir,frame), os.path.join(work_dir,frame))
             frame_time += frame_interval
             framei += 1
             continue
