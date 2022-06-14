@@ -1,8 +1,12 @@
 .DS_Store
 docs/*.mp4
-
+docs/ADJUSTED/*
+docs/FRAMES/*
+images.txt
 ### Python ###
 # Byte-compiled / optimized / DLL files
-__pycache__/
+
+__pycache__/*
 *.py[cod]
 *$py.class
+
