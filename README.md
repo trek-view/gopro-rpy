@@ -11,19 +11,20 @@ Read this post for a bit more information about our thought processes in buildin
 
 ## Usage
 
-add arguments in command line
+Add arguments in command line
 
 ```shell
-python3 main.py [.json file name/ file path] [--video_input video file path] [--plot True] [--mode roll,pitch,yaw]
+python3 main.py [.json file name/ file path] [--plot True]
 ```
 
-`--video_input` argument is optional, a video file path to process. To be used along with --mode option.
-
-`--plot` argument is optional, only put some value when plots are required.
-
-`--mode` argument is optional, a comma-seperated mode to revert worldlock (`unworldlock`), level the horizon using roll (`level_roll`) or pitch (`pitch`). Defaults to `unworldlock`.
+* `--plot` argument is optional, only put some value when plots are required
+* `--video_input` argument is optional, only put some value if you want to modify a video, in which case you also need to pass
+	* `--video_input` the input video
+	* `--mode` either `unworldlock`, `level_roll`, `level_pitch` (see examples)
 
 ### Example usage
+
+_[The sample videos used in this readme are available here](https://drive.google.com/drive/u/1/folders/1cgAmMHVTFZA2RK7ZYpEs50B-XGdIP_Sz)._
 
 #### 1. To just update the .json file with new data
 
@@ -43,16 +44,16 @@ python3 main.py docs/GS010013-worldlock.json --plot true
 python3 main.py docs/GS010013-worldlock.json --video_input GS010013-worldlock.mp4 --mode unworldlock
 ```
 
-#### 4. To automatically level the horizon using roll of a 360 video
+#### 4. To automatically level the roll (horizon) of a 360 video
 
 ```shell
 python3 main.py docs/GS010011-roll.json --video_input GS010011.mp4 --mode level_roll
 ```
 
-#### 5. To automatically level the horizon using roll of a 360 video
+#### 5. To automatically level the pitch of a 360 video
 
 ```shell
-python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode pitch
+python3 main.py docs/GS010010-pitch.json --video_input GS010010.mp4 --mode level_pitch
 ```
 
 ## Camera support
@@ -196,7 +197,7 @@ Video input:
 Command:
 
 ```shell
-python3 main.py docs/GS010011-roll.json --plot true
+python3 main.py docs/GS010011-roll.json --plot true --video_input GS010011.mp4 --mode level_roll
 ```
 
 Output:
@@ -229,7 +230,11 @@ Output:
 
 ![Magnetic heading GS010010.mp4](/docs/GS010010-pitch-heading.png)
 
-Adjusted video using `--mode pitch`:
+Adjusted video:
+
+```shell
+python3 main.py docs/GS010010-pitch.json --plot true --video_input GS010010.mp4 --mode level_pitch
+```
 
 TODO
 

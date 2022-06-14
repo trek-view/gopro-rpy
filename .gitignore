@@ -1,4 +1,8 @@
 .DS_Store
-*.json
-*.png
-!docs/*
+docs/*.mp4
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
