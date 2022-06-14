@@ -6,10 +6,11 @@ frame_rate_str = '25'
 frame_rate = 25
 extract_dir = '.'
 video_dir = '.'
+video_filename = ''
 
 # Extract frames
 def extract(videopath):
-    global frame_rate, frame_rate_str, extract_dir, video_dir
+    global frame_rate, frame_rate_str, extract_dir, video_dir, video_filename
 
     try:
         streams = ffmpeg.probe(videopath)['streams']
@@ -27,7 +28,7 @@ def extract(videopath):
 
     print('frame rate:', frame_rate_str, 'rate:', frame_rate)
 
-    video_dir = os.path.dirname(videopath)
+    video_dir, video_filename = os.path.split(videopath)
     extract_dir = os.path.join(video_dir, 'FRAMES')
     if os.path.exists(extract_dir):
         shutil.rmtree(extract_dir)
@@ -35,7 +36,7 @@ def extract(videopath):
     os.system("ffmpeg -hide_banner -i " + videopath + " -r " + frame_rate_str + " -q:v 2 " + extract_dir + "/%9d.jpg")
 
 def adjust_heading(data, mode="unworldlock"):
-    global extract_dir, frame_rate, video_dir, frame_rate_str
+    global extract_dir, frame_rate, video_dir, frame_rate_str, video_filename
     frames = [f for f in os.listdir(extract_dir)]
     work_dir = os.path.join(video_dir, "ADJUSTED")
     
@@ -68,20 +69,11 @@ def adjust_heading(data, mode="unworldlock"):
         adjust_yaw = True
 
     for frame in frames:
-        if framei == 0 :
-            shutil.copy(os.path.join(extract_dir,frame), os.path.join(work_dir,frame))
-            frame_time += frame_interval
-            framei += 1
-            continue
-
         options = []
 
         if adjust_roll or adjust_pitch :
             while frame_time > rpyvals[rpyi]['cts'] and rpyi != (rpylen - 1) :
                 rpyi += 1
-
-            # get the nearest cts below frame_time
-            rpyi -= 1
 
             if adjust_roll :
                 value_roll = rpyvals[rpyi]['value'][0]
@@ -100,9 +92,6 @@ def adjust_heading(data, mode="unworldlock"):
 
             while frame_time > headvals[headi-1]['cts'] and headi != (headlen - 1) :
                 headi += 1
-            
-            # get the nearest cts below frame_time
-            headi -= 1
 
             headval = headvals[headi]['value']
             # calculate the yaw adjustment needed using the calculation true heading - World Lock heading
@@ -130,11 +119,17 @@ def adjust_heading(data, mode="unworldlock"):
     outframes = [f for f in os.listdir(work_dir)]
     work_dir = os.path.abspath(work_dir)
     f = open('images.txt', 'w')
+
     for frame in outframes:
         f.write("file '%s'\n" % os.path.join(work_dir, frame))
     f.close()
 
-    out_file = os.path.join(video_dir,"out.mp4")
+    out_filename = video_filename.split(".")
+    out_filename.insert(-1, f"-{mode}")
+    out_filename.pop()
+    out_file = os.path.join(video_dir, "%s.mp4"%(''.join(out_filename)))
     os.system(f'ffmpeg -y -r {frame_rate_str} -f concat -safe 0 -i images.txt -c:v libx264 -vf "fps={frame_rate_str},format=yuv420p" {out_file}')
 
     os.remove('images.txt')
+    shutil.rmtree(work_dir)
+    shutil.rmtree(extract_dir)
