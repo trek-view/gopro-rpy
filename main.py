@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(description="update the sensor json file")
 parser.add_argument('file', help= 'input json file to be processed')
 parser.add_argument('--video_input', help= 'input video file to be processed')
 parser.add_argument('--plot', help= 'plot the roll pitch yaw and magnetic headings')
-parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = unworldlock,pitch,level_roll. Default = unworldlock', default='unworldlock')
+parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = unworldlock,level_pitch,level_roll. Default = unworldlock', default='unworldlock')
 args = parser.parse_args()
 
 file_name = args.file
@@ -161,7 +161,7 @@ if plot_option:
     plt.title('Camera Roll, Pitch and Yaw angle variance')
     plt.legend(['Roll','Pitch','Yaw'])
     plt.xlabel('Time(s)')
-    plt.ylabel('Angle')
+    plt.ylabel('Angle degrees')
     plt.savefig(file_name[:-5]+'-'+'RPY.png')
 
     # plot heading
