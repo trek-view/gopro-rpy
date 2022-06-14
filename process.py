@@ -26,12 +26,12 @@ def extract(videopath):
     except ffmpeg.Error as e:
         print(e.stderr)
         exit()
-        
+
     print('frame rate:', frame_rate_str, 'rate:', frame_rate)
 
     video_dir = os.path.dirname(videopath)
     extract_dir = os.path.join(video_dir, 'FRAMES')
-    if(os.path.exists(extract_dir)):
+    if os.path.exists(extract_dir):
         shutil.rmtree(extract_dir)
     os.mkdir(extract_dir)
     os.system("ffmpeg -hide_banner -i " + videopath + " -r " + frame_rate_str + " -q:v 2 " + extract_dir + "/%9d.jpg")
@@ -54,7 +54,7 @@ def adjust_heading(data, mode="unworldlock"):
     framei = 0
     frame_time = 0
 
-    if(os.path.exists(work_dir)):
+    if os.path.exists(work_dir) :
         shutil.rmtree(work_dir)
     os.mkdir(work_dir)
 
