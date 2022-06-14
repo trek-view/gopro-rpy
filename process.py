@@ -12,16 +12,21 @@ video_dir = '.'
 # Extract frames
 def extract(videopath):
     global frame_rate, frame_rate_str, extract_dir, video_dir
-    streams = ffmpeg.probe(videopath)['streams']
-    for stream in streams:
-        if stream['codec_type'] == 'video':
-            frame_rate_str = stream['r_frame_rate']
-            rate = frame_rate_str.split('/')
-            frame_rate = int(rate[0])
-            if len(rate) > 1:
-                frame_rate = frame_rate / int(rate[1])
-            break
-    
+
+    try:
+        streams = ffmpeg.probe(videopath)['streams']
+        for stream in streams:
+            if stream['codec_type'] == 'video':
+                frame_rate_str = stream['r_frame_rate']
+                rate = frame_rate_str.split('/')
+                frame_rate = int(rate[0])
+                if len(rate) > 1:
+                    frame_rate = frame_rate / int(rate[1])
+                break
+    except ffmpeg.Error as e:
+        print(e.stderr)
+        exit()
+        
     print('frame rate:', frame_rate_str, 'rate:', frame_rate)
 
     video_dir = os.path.dirname(videopath)
