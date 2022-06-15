@@ -22,6 +22,10 @@ python3 main.py [.json telemetry file] [--plot] [--video_input] [--mode]
 	* `--video_input` the input video
 	* `--mode` either `unworldlock`, `level_roll`, `level_pitch` (see examples)
 
+#### A note on `level_pitch`
+
+This script will not work if the camera is upside down, between `90` - `180` and `-180` to `-90`.
+
 ### Example usage
 
 _[The sample videos used in this readme are available here](https://drive.google.com/drive/u/1/folders/1cgAmMHVTFZA2RK7ZYpEs50B-XGdIP_Sz)._
