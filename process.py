@@ -38,6 +38,7 @@ def extract(videopath):
 def adjust_heading(data, mode="unworldlock"):
     global extract_dir, frame_rate, video_dir, frame_rate_str, video_filename
     frames = [f for f in os.listdir(extract_dir)]
+    frames.sort()
     work_dir = os.path.join(video_dir, "ADJUSTED")
     
     headvals = data['1']['streams']['HEAD']['samples']
@@ -117,6 +118,7 @@ def adjust_heading(data, mode="unworldlock"):
         framei += 1
 
     outframes = [f for f in os.listdir(work_dir)]
+    outframes.sort()
     work_dir = os.path.abspath(work_dir)
     f = open('images.txt', 'w')
 
