@@ -7,6 +7,7 @@ frame_rate = 25
 extract_dir = '.'
 video_dir = '.'
 video_filename = ''
+copy_stream_indices = []
 
 # Extract frames
 def extract(videopath):
@@ -21,7 +22,9 @@ def extract(videopath):
                 frame_rate = int(rate[0])
                 if len(rate) > 1:
                     frame_rate = frame_rate / int(rate[1])
-                break
+            else:
+                copy_stream_indices.append(stream['index'])
+
     except ffmpeg.Error as e:
         print(e.stderr)
         exit()
@@ -36,7 +39,7 @@ def extract(videopath):
     os.system("ffmpeg -hide_banner -i " + videopath + " -r " + frame_rate_str + " -q:v 2 " + extract_dir + "/%9d.jpg")
 
 def adjust_heading(data, mode="unworldlock"):
-    global extract_dir, frame_rate, video_dir, frame_rate_str, video_filename
+    global extract_dir, frame_rate, video_dir, frame_rate_str, video_filename, copy_stream_indices
     frames = [f for f in os.listdir(extract_dir)]
     frames.sort()
     work_dir = os.path.join(video_dir, "ADJUSTED")
@@ -81,7 +84,7 @@ def adjust_heading(data, mode="unworldlock"):
                 options.append("roll=%f" % (value_roll))
 
             if adjust_pitch :
-                value_pitch = rpyvals[rpyi]['value'][1] * -1.0
+                value_pitch = rpyvals[rpyi]['value'][1]
                 options.append("pitch=%f" % (value_pitch))
         
         if adjust_yaw :
@@ -130,8 +133,25 @@ def adjust_heading(data, mode="unworldlock"):
     out_filename.insert(-1, f"-{mode}")
     out_filename.pop()
     out_file = os.path.join(video_dir, "%s.mp4"%(''.join(out_filename)))
-    os.system(f'ffmpeg -y -r {frame_rate_str} -f concat -safe 0 -i images.txt -c:v libx264 -vf "fps={frame_rate_str},format=yuv420p" {out_file}')
+    tmp_file = os.path.join(video_dir, "__tmp.mp4")
+
+    copy_stream_str = ""
+    for i in copy_stream_indices:
+        copy_stream_str += f'-map 1:{i} -c copy '
+
+    compile_video_cmd = f'ffmpeg -y -hide_banner -loglevel error -r {frame_rate_str} -f concat -safe 0 -i images.txt -c:v libx264 -vf "fps={frame_rate_str},format=yuv420p" {tmp_file}'
+    print("Compiling video:", compile_video_cmd)
+    os.system(compile_video_cmd)
+    
+    copy_stream_cmd = f'ffmpeg -y -hide_banner -loglevel error -i {tmp_file} -i {os.path.join(video_dir, video_filename)} -map 0:v -c copy {copy_stream_str} {out_file}'
+    print("Copying original streams:", copy_stream_cmd)
+    os.system(copy_stream_cmd)
+
+    copy_metadata_cmd = 'exiftool -TagsFromFile %s "-all:all>all:all" %s'%(os.path.join(video_dir, video_filename), out_file)
+    print("Copying metadata:", copy_metadata_cmd)
+    os.system(copy_metadata_cmd)
 
     os.remove('images.txt')
+    os.remove(tmp_file)
     shutil.rmtree(work_dir)
     shutil.rmtree(extract_dir)
