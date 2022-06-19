@@ -16,27 +16,27 @@ def euler_from_quaternion(w, x, y, z):
         x = x #change to -x if needed
         """
         Convert a quaternion into euler angles (roll, pitch, yaw)
-        roll >> around x in radians (counterclockwise)
-        pitch >> around y in radians (counterclockwise)
+        roll >> around y in radians (counterclockwise)
+        pitch >> around x in radians (counterclockwise)
         yaw >> around z in radians (counterclockwise)
         """
         t0 = +2.0 * (w * x + y * z)
         t1 = +1.0 - 2.0 * (x * x + y * y)
-        #roll_x = math.atan2(t0, t1)*(180/math.pi) #deg
-        roll_x = math.atan2(t0, t1) #rad
+        #roll_y = math.atan2(t0, t1)*(180/math.pi) #deg
+        roll_y = math.atan2(t0, t1) #rad
      
         t2 = +2.0 * (w * y - z * x)
         t2 = +1.0 if t2 > +1.0 else t2
         t2 = -1.0 if t2 < -1.0 else t2
-        #pitch_y = math.asin(t2)*(180/math.pi) #deg
-        pitch_y = math.asin(t2) #rad
+        #pitch_x = math.asin(t2)*(180/math.pi) #deg
+        pitch_x = math.asin(t2) #rad
      
         t3 = +2.0 * (w * z + x * y)
         t4 = +1.0 - 2.0 * (y * y + z * z)
         #yaw_z = math.atan2(t3, t4)*(180/math.pi) # deg
         yaw_z = math.atan2(t3, t4) # rad
      
-        return [roll_x, pitch_y, yaw_z] # in radians
+        return [roll_y, pitch_x, yaw_z] # in radians
 
 def ang2compass(ang):
     if ang < 0:
