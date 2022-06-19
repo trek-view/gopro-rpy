@@ -4,6 +4,7 @@ import json
 import numpy as np  
 import matplotlib.pyplot as plt
 import math
+import process
 
 def get_sec(time_str):
     # Get seconds from time in hours,minutes,sec
@@ -15,27 +16,27 @@ def euler_from_quaternion(w, x, y, z):
         x = x #change to -x if needed
         """
         Convert a quaternion into euler angles (roll, pitch, yaw)
-        roll >> around x in radians (counterclockwise)
-        pitch >> around y in radians (counterclockwise)
+        roll >> around y in radians (counterclockwise)
+        pitch >> around x in radians (counterclockwise)
         yaw >> around z in radians (counterclockwise)
         """
         t0 = +2.0 * (w * x + y * z)
         t1 = +1.0 - 2.0 * (x * x + y * y)
-        #roll_x = math.atan2(t0, t1)*(180/math.pi) #deg
-        roll_x = math.atan2(t0, t1) #rad
+        #roll_y = math.atan2(t0, t1)*(180/math.pi) #deg
+        roll_y = math.atan2(t0, t1) #rad
      
         t2 = +2.0 * (w * y - z * x)
         t2 = +1.0 if t2 > +1.0 else t2
         t2 = -1.0 if t2 < -1.0 else t2
-        #pitch_y = math.asin(t2)*(180/math.pi) #deg
-        pitch_y = math.asin(t2) #rad
+        #pitch_x = math.asin(t2)*(180/math.pi) #deg
+        pitch_x = math.asin(t2) #rad
      
         t3 = +2.0 * (w * z + x * y)
         t4 = +1.0 - 2.0 * (y * y + z * z)
         #yaw_z = math.atan2(t3, t4)*(180/math.pi) # deg
         yaw_z = math.atan2(t3, t4) # rad
      
-        return [roll_x, pitch_y, yaw_z] # in radians
+        return [roll_y, pitch_x, yaw_z] # in radians
 
 def ang2compass(ang):
     if ang < 0:
@@ -47,7 +48,9 @@ def ang2compass(ang):
 
 parser = argparse.ArgumentParser(description="update the sensor json file")
 parser.add_argument('file', help= 'input json file to be processed')
+parser.add_argument('--video_input', help= 'input video file to be processed')
 parser.add_argument('--plot', help= 'plot the roll pitch yaw and magnetic headings')
+parser.add_argument('--mode', help= 'comma-seperated adjustment mode. available option = unworldlock,level_pitch,level_roll. Default = unworldlock', default='unworldlock')
 args = parser.parse_args()
 
 file_name = args.file
@@ -189,11 +192,11 @@ for i in range(len(calc_heading_d)):
 
 #rpy rad
 #rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}
-rpyrval_dict = {'samples':rpyr_list,'name':'roll, pitch, yaw (x,y,z)','units':'radians'}
+rpyrval_dict = {'samples':rpyr_list,'name':'roll, pitch, yaw (y,x,z)','units':'radians'}
 
 #rpy deg
 #rpyd_dict = {'values':rpyd_arr.tolist(),'time':timestamp_cam}
-rpydval_dict = {'samples':rpyd_list,'name':'roll, pitch, yaw (x,y,z)','units':'degrees'}
+rpydval_dict = {'samples':rpyd_list,'name':'roll, pitch, yaw (y,x,z)','units':'degrees'}
 #rpy_time = {'time':timestamp_cam}
 
 #head rad
@@ -221,3 +224,7 @@ f2 = open(file_name[:-5]+'-calculated.json','a')
 f2.write(updated_file)
 f2.close()
 f.close()
+
+if args.video_input:
+    process.extract(args.video_input)
+    process.adjust_heading(data, args.mode)
