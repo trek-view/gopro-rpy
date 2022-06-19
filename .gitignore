@@ -1,5 +1,6 @@
 .DS_Store
 docs/*.mp4
+docs/*.mp4_original
 docs/ADJUSTED/*
 docs/FRAMES/*
 images.txt
@@ -11,3 +12,8 @@ __pycache__/*
 *$py.class
 
 exiftool.exe
+docs/c.png
+docs/GS010010-pitch-calculated.json
+docs/GS010010-pitch-calculated.json
+docs/GS010010-pitch-calculated.json
+docs/GS010011-roll-calculated.json

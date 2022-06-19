@@ -192,11 +192,11 @@ for i in range(len(calc_heading_d)):
 
 #rpy rad
 #rpyr_dict = {'values':rpyr_arr.tolist(),'time':timestamp_cam}
-rpyrval_dict = {'samples':rpyr_list,'name':'roll, pitch, yaw (x,y,z)','units':'radians'}
+rpyrval_dict = {'samples':rpyr_list,'name':'roll, pitch, yaw (y,x,z)','units':'radians'}
 
 #rpy deg
 #rpyd_dict = {'values':rpyd_arr.tolist(),'time':timestamp_cam}
-rpydval_dict = {'samples':rpyd_list,'name':'roll, pitch, yaw (x,y,z)','units':'degrees'}
+rpydval_dict = {'samples':rpyd_list,'name':'roll, pitch, yaw (y,x,z)','units':'degrees'}
 #rpy_time = {'time':timestamp_cam}
 
 #head rad

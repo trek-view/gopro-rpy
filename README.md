@@ -126,12 +126,12 @@ _Be careful not to confuse `My` and `my` / `Mx` and `mx` (they are different var
 This script then writes out a new telemetry file (`INPUT-calculated.json`) with the following values:
 
 * `RPYR`:
-	* name: roll, pitch, yaw (x,y,z)
+	* name: roll, pitch, yaw (y,x,z)
 	* units: radians
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
 * `RPYD`
-	* name: roll, pitch, yaw (x,y,z)
+	* name: roll, pitch, yaw (y,x,z)
 	* units: degrees
 	* cts: milliseconds since video start
 	* date: YYYY-MM-DDTHH:MM:SS.SSSZ
@@ -190,7 +190,7 @@ Values between `0` and `360` (`0` is North, `90` is East, etc.) (degrees)
 
 Graphs shown below for example Roll, Pitch, Yaw videos.
 
-##### (x) Roll (`RPYD`)
+##### (y) Roll (`RPYD`)
 
 Values between `-180` and `180` (degrees).
 
@@ -212,9 +212,9 @@ Output:
 
 Adjusted video:
 
-[![GS010011-level_roll.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
+[![GS010011-level_roll.mp4](https://img.youtube.com/vi/VUIww0_675A/0.jpg)](https://youtu.be/VUIww0_675A)
 
-##### (y) Pitch (`RPYD`)
+##### (x) Pitch (`RPYD`)
 
 Values between `-90` and `90` (degrees).
 
@@ -236,7 +236,7 @@ Output:
 
 Adjusted video:
 
-[![GS010010-level_pitch.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
+[![GS010010-level_pitch.mp4](https://img.youtube.com/vi/rjPtyUIOqSc/0.jpg)](https://youtu.be/rjPtyUIOqSc)
 
 ##### (z) Yaw (`RPYD`)
 
@@ -286,7 +286,7 @@ Output:
 
 ![Magnetic heading GS010013-worldlock.mp4](/docs/GS010013-worldlock-heading.png)
 
-[![GS010013-worldlock-unworldlock.mp4](https://img.youtube.com/vi//0.jpg)](https://youtu.be/)
+[![GS010013-worldlock-unworldlock.mp4](https://img.youtube.com/vi/rZxu6p-ABJk/0.jpg)](https://youtu.be/rZxu6p-ABJk)
 
 ##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
 
