@@ -212,7 +212,7 @@ Output:
 
 Adjusted video:
 
-[![GS010011-level_roll.mp4](https://img.youtube.com/vi/VUIww0_675A/0.jpg)](https://youtu.be/VUIww0_675A)
+[![GS010011-level_roll.mp4](https://img.youtube.com/vi/sLwrGJQMIxk/0.jpg)](https://youtu.be/sLwrGJQMIxk)
 
 ##### (x) Pitch (`RPYD`)
 
@@ -236,7 +236,7 @@ Output:
 
 Adjusted video:
 
-[![GS010010-level_pitch.mp4](https://img.youtube.com/vi/rjPtyUIOqSc/0.jpg)](https://youtu.be/rjPtyUIOqSc)
+[![GS010010-level_pitch.mp4](https://img.youtube.com/vi/9fwi2JO08D4/0.jpg)](https://youtu.be/9fwi2JO08D4)
 
 ##### (z) Yaw (`RPYD`)
 
@@ -286,7 +286,7 @@ Output:
 
 ![Magnetic heading GS010013-worldlock.mp4](/docs/GS010013-worldlock-heading.png)
 
-[![GS010013-worldlock-unworldlock.mp4](https://img.youtube.com/vi/rZxu6p-ABJk/0.jpg)](https://youtu.be/rZxu6p-ABJk)
+[![GS010013-worldlock-unworldlock.mp4](https://img.youtube.com/vi/nCFRQ0pFDNc/0.jpg)](https://youtu.be/nCFRQ0pFDNc)
 
 ##### 4.1.2 Note on adjusting Yaw in non-World Lock Videos
 
